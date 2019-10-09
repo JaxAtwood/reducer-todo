@@ -2,37 +2,29 @@ import React, { useReducer, useState } from "react";
 import { initialState, reducer } from "../reducers/Reducers";
 
 
-const Todo = () => {
+function Todo() {
     const [state , dispatch] = useReducer(reducer, initialState);
     const [newItem, setNewItem] = useState("");
 
-
-    const handleChanges = event => {
+    const handleSubmit = event => {
+        event.preventDefault();
         setNewItem(event.target.value);
     };
-
-    const submitList = event => {
-        event.preventDefault();
-        //this.props.addList(this.state.item);
-        // addList(state.item);
-        // ????????????????????????????????
-    };
+    console.log(state);
 
     return (
         <div>
             <h1>{state.item}</h1>
-            {/* <form> */}
-            <form onSubmit = {submitList}>
+            <form>
             <input 
                 type="text"
                 item="newItem"
-                value={newItem}
-                onChange={handleChanges}
-                // addList={item}
+                value={state.newItem}
+                onChange={handleSubmit}
             />
             <button
-                onClick={() => 
-                    dispatch({ type: "ADD_ITEM", payload: newItem})
+                onSubmit={() => 
+                    dispatch({ type: "ADD_ITEM", item: newItem})
                 }>
                 Add Item
             </button>
@@ -54,37 +46,3 @@ export default Todo;
 //     if (action.type === undefined) throw new Error()
 //     currentState = reducer(currentState, action);
 //   }
-
-/*
-export const reducer = function reducer(state, action) {
-    console.log("action payload", action.payload);
-    console.log("action type", action.type);
- 
-    switch (action.type) {
-       case 'ADD_NEW_ITEM':
-          const newItem = {
-            item: action.payload,
-            id: Date.now(),
-            completed: false
-          };
-          return [...state, newItem];
-       
-       case 'TOGGLE_EDIT':
-          state.map(item => {
-             if (item.id === action.payload) {
-                console.log("item found");
-                return {
-                   ...item,
-                   completed: !item.completed
-                };
-             } else {
-                return item;
-             }
-             });
-             
-          
-      default:
-        return state
-    }
-  }
-  */

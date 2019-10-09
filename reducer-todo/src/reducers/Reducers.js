@@ -11,45 +11,48 @@
 // `actions get "sent" via a dispatch function
 
 
-const initialState = { //setting the intialState object with specific properties
-    // thing: ""
-    item: "example item", //item property with empty string
-    // completed: false, //completed property with a boolean value
-    // id: null, //id property with empty string
-};
+const initialState = [
+    { //setting the intialState object with specific properties
+        item: "1item", //item property with empty string
+        completed: false, //completed property with a boolean value
+        id: 1, //id property with empty string
+    },
+    {
+        item: "2item", //item property with empty string
+        completed: false, //completed property with a boolean value
+        id: 2,
+    },
+    {
+        item: "3item", //item property with empty string
+        completed: false, //completed property with a boolean value
+        id: 3,
+    },
+];
 
 
 // basic reducer / takes in a state object / takes in an action object / basic switch that returns our state
 // kind of the "key to the ignition" in beginning reducers
 // returns new state object
 const reducer = (state, action) => { //taking state and action => reduces to: 
-    // console.log(reducer);
     switch(action.type) { //switch statement: similar to if/else if (cleaner/dryer); takes cases/returns
-        case "ADD_ITEM":
-            const newItem = {
-                item: action.payload,
-                id: Date.now(),
-                completed: false
-            };
-            return {
-                ...state.item, newItem
-        };
-
-        case "TOGGLE_EDIT":
-                    state.map(item => {
-                    if (item.id === action.payload) {
-                        return {
-                            ...item,
-                            completed: !item.completed
-                        };
-                    } else {
-                        return item;
-                    }
-                })          
-            default: //default to return the state untouched- must have a default in a switch statement
-                return state; 
+        // case "ADD_ITEM":
+            // const newItem = {
+            //     item: action.payload,
+            //     id: Date.now(),
+            //     completed: false
+            // };
+            // return {
+            //     ...state.item, newItem
+            // };
+        case "toggleTodoCompleted": {
+            const todo = state.todo.map(item => item.item === action.payload);
+            todo.completed = !todo.completed;
+            return;
         }
-    
+
+        default: //default to return the state untouched- must have a default in a switch statement
+                return state; 
+        }    
 };
 
 export { initialState, reducer }; 
