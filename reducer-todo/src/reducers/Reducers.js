@@ -1,4 +1,4 @@
-// NOTES FOR ME 
+// NOTES FOR ME
 // `reducer is a pure function with no side effects
 // `reducer is a React Hook
 // `reducers never change anything that lives outside of that function
@@ -10,49 +10,98 @@
 // `actions describe to the reducer what event has occured and how to update state based on said event
 // `actions get "sent" via a dispatch function
 
-
-const initialState = [
-    { //setting the intialState object with specific properties
-        item: "1item", //item property with empty string
-        completed: false, //completed property with a boolean value
-        id: 1, //id property with empty string
-    },
-    {
-        item: "2item", //item property with empty string
-        completed: false, //completed property with a boolean value
-        id: 2,
-    },
-    {
-        item: "3item", //item property with empty string
-        completed: false, //completed property with a boolean value
-        id: 3,
-    },
-];
-
-
-// basic reducer / takes in a state object / takes in an action object / basic switch that returns our state
-// kind of the "key to the ignition" in beginning reducers
-// returns new state object
-const reducer = (state, action) => { //taking state and action => reduces to: 
-    switch(action.type) { //switch statement: similar to if/else if (cleaner/dryer); takes cases/returns
-        // case "ADD_ITEM":
-            // const newItem = {
-            //     item: action.payload,
-            //     id: Date.now(),
-            //     completed: false
-            // };
-            // return {
-            //     ...state.item, newItem
-            // };
-        case "toggleTodoCompleted": {
-            const todo = state.todo.map(item => item.item === action.payload);
-            todo.completed = !todo.completed;
-            return;
+//@@ GIVE YOUR INTIAL STATE OBJECT AN ARRAY NAME LIKE  `todos` (SO THAT ITS EASIER TO REFERENCE IN YOUR REDUCER FUNCTION CASES)
+// export const initialState = {
+//   todos: [
+//     {
+//       item: 'Learn about reducers',
+//       completed: false,
+//       id: 3892987589,
+//     },
+//   ],
+// };
+export const initialState = {
+    todos: [
+        {
+            item: "my first todo item",  
+            completed: false, 
+            id: 1, 
         }
-
-        default: //default to return the state untouched- must have a default in a switch statement
-                return state; 
-        }    
+    ],
 };
 
-export { initialState, reducer }; 
+//@@ i WOULD DO THE EXPORT FUNCTION BEFORE YOUR REDUCER HERE
+export const reducer = (state, action) => { 
+
+    switch(action.type) { 
+        case "ADD_TODO":
+            return {
+                ...state,
+                todos: [
+                    ...state.todos,
+                    { item: action.text, id: Date.now(), completed: false },
+                ],
+            };
+        case 'TOGGLE_COMPLETE':
+            return {
+                ...state,
+                todos: state.todos.map(todo =>
+                  todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+                ),
+            };
+        case 'CLEAR_COMPLETED':
+            return {
+                ...state,
+                todos: state.todos.filter(todo =>
+                    !todo.completed
+                    ),
+            };
+        
+        default: 
+            return state;
+        }
+    };
+
+            //@@@ what you have above for 'ADD_ITEM' would work
+            //@@ within the intial state above I would give the array a name such as:
+            //@@ export const initialState = {
+//  @@@ todos: [
+//     {
+//       item: 'Learn about reducers',
+//       completed: false,
+//       id: 3892987589,
+//     },
+//   ],
+//};
+
+//@@ so that you can implement a case that looks like:
+// switch (action.type) {
+//     case 'ADD_TODO':
+//       return {
+//         ...state,
+//         todos: [
+//           ...state.todos,
+//           { item: action.text, id: Date.now(), completed: false },
+//         ],
+//       };
+//   case 'TOGGLE_COMPLETE':
+//       return {
+//         ...state,
+//         todos: state.todos.map(todo =>
+//           todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+//         ),
+//       };
+//@@@ I'll let you figure out how to write the case for 'CLEAR_COMPLETED`
+// //& Yes ALWAYS RETURN DEFAULT: RETURN STATE AT THE END OF YOUR REDUCER LIKE YOU DID
+//         case "toggleTodoCompleted": {
+//             const todo = state.todo.map(item => item.item === action.payload);
+//             todo.completed = !todo.completed;
+//             return;
+//         }
+
+//         default: //default to return the state untouched- must have a default in a switch statement
+//                 return state;
+//         }
+// };
+
+// export { initialState, reducer };
