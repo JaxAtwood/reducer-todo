@@ -23,9 +23,24 @@
 export const initialState = {
     todos: [
         {
-            item: "my first todo item",  
+            item: "this is your first todo item",  
             completed: false, 
             id: 1, 
+        },
+        {
+            item: "click on item to select it",  
+            completed: false, 
+            id: 2, 
+        },
+        {
+            item: "item can now be deleted",  
+            completed: false, 
+            id: 3, 
+        },
+        {
+            item: "now create your todo list",  
+            completed: false, 
+            id: 4, 
         }
     ],
 };
